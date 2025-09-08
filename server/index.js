@@ -2,18 +2,19 @@ import express from "express";
 import mongoose from "mongoose";
 import Users from "./Users.model.js";
 import { createServer } from "http";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const httpServer = createServer(app);
 
 const con = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/social");
+    await mongoose.connect(process.env.MONGO_URL);
   } catch (error) {
     console.log(error);
   }
 };
-
 app.get("/users", async (req, res) => {
   try {
     const users = await Users.find();
